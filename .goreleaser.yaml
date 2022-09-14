@@ -1,0 +1,66 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+
+    goarch:
+      - amd64
+      - arm64
+
+    id: rshell
+    binary:
+      'remote-shell'
+# archives:
+#   - replacements:
+#       darwin: Darwin
+#       linux: Linux
+#       windows: Windows
+#       386: i386
+#       amd64: x86_64
+
+archives:
+  - files:
+    - none*
+    format: zip
+    id: homebrew
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+    - goos: linux
+      format: tar.gz
+
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Version }}"
+release:
+  draft: true
+changelog:
+  skip: true
+  # sort: asc
+  # filters:
+  #   exclude:
+  #     - '^docs:'
+  #     - '^test:'
+
+brews:
+  - ids:
+      - homebrew
+    name: cloud87-remote-shell
+    tap:
+      owner: webdestroya
+      name: homebrew-tap
+      branch: bump-brew
+    folder: Formula
+    url_template: "https://github.com/webdestroya/remote-shell-client/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    homepage: "https://github.com/webdestroya/remote-shell-client"
+    description: "Allows easy remote access to containerized applications running on Fargate"
+    skip_upload: auto
+    install: |-
+      bin.install "remote-shell-client"

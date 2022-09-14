@@ -1,2 +1,4 @@
 .DS_Store
 remote-shell-client
+
+dist/
