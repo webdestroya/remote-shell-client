@@ -1,5 +1,8 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
+
+project_name: remote-shell-client
+
 before:
   hooks:
     - go mod tidy
@@ -15,8 +18,11 @@ builds:
       - arm64
 
     id: rshell
-    binary:
-      'remote-shell'
+    # binary: 'remote-shell'
+    ldflags:
+      - "-s -w -X main.buildVersion={{.Version}} -X main.buildSha={{.Commit}}"
+
+
 # archives:
 #   - replacements:
 #       darwin: Darwin
@@ -49,6 +55,9 @@ changelog:
   #     - '^docs:'
   #     - '^test:'
 
+announce:
+  skip: true
+
 brews:
   - ids:
       - homebrew
@@ -63,4 +72,11 @@ brews:
     description: "Allows easy remote access to containerized applications running on Fargate"
     skip_upload: auto
     install: |-
-      bin.install "remote-shell-client"
+      bin.install "remote-shell"
+
+universal_binaries:
+-
+  id: rshell
+  # name_template: "{{ .ProjectName }}_{{ .Version }}"
+  name_template: "{{ .ProjectName }}"
+  replace: true
