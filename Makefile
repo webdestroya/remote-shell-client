@@ -29,3 +29,7 @@ lint:
 		exit 1; \
 	}
 	golangci-lint run
+
+.PHONY: test-release
+test-release:
+	goreleaser release --skip-publish --rm-dist --snapshot

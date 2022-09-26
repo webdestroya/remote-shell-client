@@ -1,7 +1,7 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
 
-project_name: remote-shell-client
+project_name: remote-shell
 
 before:
   hooks:
@@ -18,7 +18,7 @@ builds:
       - arm64
 
     id: rshell
-    # binary: 'remote-shell'
+    binary: 'remote-shell'
     ldflags:
       - "-s -w -X main.buildVersion={{.Version}} -X main.buildSha={{.Commit}}"
 
@@ -36,7 +36,7 @@ archives:
     - none*
     format: zip
     id: homebrew
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
     format_overrides:
     - goos: linux
       format: tar.gz
@@ -48,7 +48,7 @@ snapshot:
 release:
   draft: true
 changelog:
-  skip: true
+  # skip: true
   # sort: asc
   # filters:
   #   exclude:
@@ -61,7 +61,7 @@ announce:
 brews:
   - ids:
       - homebrew
-    name: cloud87-remote-shell
+    name: remote-shell
     tap:
       owner: webdestroya
       name: homebrew-tap
@@ -78,5 +78,19 @@ universal_binaries:
 -
   id: rshell
   # name_template: "{{ .ProjectName }}_{{ .Version }}"
-  name_template: "{{ .ProjectName }}"
-  replace: true
+  name_template: "{{ .ProjectName }}_{{ .Version }}"
+  replace: false
+
+nfpms:
+  - id: "rshell"
+    builds: ['rshell']
+    formats:
+      - deb
+      - rpm
+    vendor: "cloud87.io"
+    homepage: "https://github.com/webdestroya/remote-shell-client/"
+    maintainer: "Mitch Dempsey <webdestroya@noreply.github.com>"
+    description: "Allows easy remote access to containerized applications running on Fargate"
+    file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
+    rpm:
+      summary: "Allows easy remote access to containerized applications running on Fargate"

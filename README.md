@@ -2,6 +2,18 @@
 
 This program makes it dead simple to launch a task using the [webdestroya/remote-shell](https://github.com/webdestroya/remote-shell) service.
 
+## Installation
+
+
+## Usage
+
+To launch a remote shell session, you only need to know the task definition prefix. By default, it is assumed that your task definition is whatever you enter for the `app` parameter, but with `-console` appended.
+
+If you do not have a console suffix, then add `-exact` to your command.
+
+```
+remote-shell-client -app myapp
+```
 
 ## Task Configuration
 To use this, you must add a docker label to your ECS Task Definition on the container that will be used for the shell.
@@ -15,9 +27,8 @@ The label must be named `cloud87.rshell` and should contain a JSON object with t
 | `security_groups` | Array | List of SecurityGroupIDs to use for the network interface |
 | `port` | Integer | The port that should be used for the SSH service |
 | `public` | Boolean | Whether or not this container will be given a public IP address |
+| `path` | String | Path to the remote-shell binary. If not provided, then `/cloud87/remote-shell` is assumed. |
 
-
-## Usage
 
 
 

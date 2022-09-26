@@ -17,6 +17,7 @@ type RemoteShellDockerLabel struct {
 	SecurityGroupIds []string `json:"security_groups"`
 	AssignPublicIp   bool     `json:"public"`
 	Port             int32    `json:"port"`
+	Path             string   `json:"path,omitempty"`
 }
 
 type ContainerDetails struct {
@@ -48,7 +49,7 @@ func extractContainerDetails(taskDef *ecsTypes.TaskDefinition) ContainerDetails 
 	}
 
 	if containerName == "" {
-		panic("This task definition does not have Cloud87 Remote Shell configuration label!")
+		panic("This task definition does not have Cloud87 Remote Shell (cloud87.rshell) configuration label!")
 	}
 
 	return ContainerDetails{
