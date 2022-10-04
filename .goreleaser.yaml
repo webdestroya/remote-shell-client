@@ -36,7 +36,8 @@ archives:
     - none*
     format: zip
     id: homebrew
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
+    # name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     format_overrides:
     - goos: linux
       format: tar.gz
@@ -48,13 +49,8 @@ snapshot:
 release:
   draft: true
 changelog:
-  # skip: true
-  # sort: asc
-  # filters:
-  #   exclude:
-  #     - '^docs:'
-  #     - '^test:'
-
+  skip: true
+  
 announce:
   skip: true
 
@@ -71,15 +67,15 @@ brews:
     homepage: "https://github.com/webdestroya/remote-shell-client"
     description: "Allows easy remote access to containerized applications running on Fargate"
     skip_upload: auto
+    license: "MIT"
     install: |-
       bin.install "remote-shell"
 
 universal_binaries:
--
-  id: rshell
-  # name_template: "{{ .ProjectName }}_{{ .Version }}"
-  name_template: "{{ .ProjectName }}_{{ .Version }}"
-  replace: false
+  - id: rshell
+    # name_template: "{{ .ProjectName }}_{{ .Version }}"
+    name_template: "{{ .ProjectName }}"
+    replace: false
 
 nfpms:
   - id: "rshell"
@@ -87,10 +83,12 @@ nfpms:
     formats:
       - deb
       - rpm
+      - apk
     vendor: "cloud87.io"
     homepage: "https://github.com/webdestroya/remote-shell-client/"
     maintainer: "Mitch Dempsey <webdestroya@noreply.github.com>"
     description: "Allows easy remote access to containerized applications running on Fargate"
-    file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
+    # file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_{{ .Version }}"
+    file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     rpm:
       summary: "Allows easy remote access to containerized applications running on Fargate"

@@ -5,7 +5,7 @@ clean:
 
 .PHONY: compile
 compile: clean
-	go build -a -o remote-shell-client -ldflags="-s -w"
+	go build -o remote-shell-client -ldflags="-s -w"
 	stat remote-shell-client
 
 .PHONY: tidy
