@@ -13,12 +13,13 @@ import (
 )
 
 const (
-	maxKeyFileSize = 2 * 1024 * 1024 // 2 megabytes
+	// maxKeyFileSize = 2 * 1024 * 1024 // 2 megabytes
 
 	sshBaudSpeed = 14400 // 14400,
 	// sshBaudSpeed = 38400 // 14400,
 )
 
+/*
 func loadKeyFile(filepath string) ssh.Signer {
 	key, err := os.ReadFile(filepath)
 	if err != nil {
@@ -73,14 +74,15 @@ func loadLocalKeys(options RemoteShellOptions) []ssh.Signer {
 
 	return signers
 }
+*/
 
 func launchSSHSession(options RemoteShellOptions, containerHost string, port int32) {
 
-	sshKeys := loadLocalKeys(options)
+	// sshKeys := loadLocalKeys(options)
 
-	if len(sshKeys) == 0 {
-		log.Panicln("Could not load any keys!")
-	}
+	// if len(sshKeys) == 0 {
+	// 	log.Panicln("Could not load any keys!")
+	// }
 
 	config := &ssh.ClientConfig{
 		User:            "cloud87",
@@ -88,7 +90,8 @@ func launchSSHSession(options RemoteShellOptions, containerHost string, port int
 		ClientVersion:   fmt.Sprintf("SSH-2.0-cloud87-client-%s", buildVersion), // MUST start with SSH-2.0-
 		Timeout:         30 * time.Second,
 		Auth: []ssh.AuthMethod{
-			ssh.PublicKeys(sshKeys...),
+			// ssh.PublicKeys(sshKeys...),
+			ssh.PublicKeys(options.privateKey),
 		},
 	}
 

@@ -5,7 +5,7 @@ clean:
 
 .PHONY: compile
 compile: clean
-	go build -a -o remote-shell-client -ldflags="-s -w"
+	go build -o remote-shell-client -ldflags="-s -w"
 	stat remote-shell-client
 
 .PHONY: tidy
@@ -29,3 +29,7 @@ lint:
 		exit 1; \
 	}
 	golangci-lint run
+
+.PHONY: test-release
+test-release:
+	goreleaser release --skip-publish --rm-dist --snapshot
